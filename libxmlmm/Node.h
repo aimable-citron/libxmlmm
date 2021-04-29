@@ -1,23 +1,23 @@
 //
-// Copyright (c) 2008-2020 Sean Farrell
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to use,
-// copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-// Software, and to permit persons to whom the Software is furnished to do so,
+// Copyright (c) 2008-2012 Sean Farrell
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of 
+// this software and associated documentation files (the "Software"), to deal in 
+// the Software without restriction, including without limitation the rights to use, 
+// copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the 
+// Software, and to permit persons to whom the Software is furnished to do so, 
 // subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
+// 
+// The above copyright notice and this permission notice shall be included in all 
 // copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
+// 
 
 #pragma once
 
@@ -35,9 +35,9 @@ namespace xml
     /**
      * XML DOM Node
      *
-     * The Node class is the base class for all DOM elements (except Document).
+     * The Node class is the base class for all DOM elements (except Document). 
      * It is effectively a wrapper for xmlNode.
-     **/
+     **/    
     class LIBXMLMM_EXPORT Node
     {
     protected:
@@ -47,13 +47,13 @@ namespace xml
          * @param cobj The xmlNode object to wrap.
          **/
         explicit Node(xmlNode* const cobj);
-
+        
     public:
         /**
          * Destructor
          **/
-        virtual ~Node();
-
+        virtual ~Node();       
+        
         /**
          * Get the node's path
          *
@@ -78,10 +78,10 @@ namespace xml
          *
          * @{
          **/
-        Element* get_parent();
-        const Element* get_parent() const;
+        Element* get_parent(); 
+        const Element* get_parent() const;  
         /** @} **/
-
+        
         /**
          * Find a given node.
          *
@@ -94,7 +94,7 @@ namespace xml
         Node* find_node(const std::string& xpath);
         const Node* find_node(const std::string& xpath) const;
         /** @} **/
-
+        
         /**
          * Find a set of nodes.
          *
@@ -109,7 +109,7 @@ namespace xml
         std::vector<Node*> find_nodes(const std::string& xpath);
         std::vector<const Node*> find_nodes(const std::string& xpath) const;
         /** @} **/
-
+        
         /**
          * Query a value.
          *
@@ -124,30 +124,30 @@ namespace xml
         std::string query_string(const std::string& xpath) const;
         double query_number(const std::string& xpath) const;
         /** @} **/
-
+    
         /**
          * Get the value of this node.  Empty if not found.
          **/
         virtual std::string get_value() const = 0;
 
-    protected:
+    protected:    
         /** The wrapped xmlNode object. **/
         xmlNode* cobj;
-
+    
         // Helper object to keep our xpath search context.
-        struct FindNodeset
+        struct FindNodeset 
         {
             FindNodeset(xmlNode *const cobj, const std::string &xpath, const xmlXPathObjectType type = XPATH_UNDEFINED);
             ~FindNodeset();
 
             operator xmlXPathObject* ()
-            {
-                return result;
+            { 
+                return result; 
             }
 
             operator xmlNodeSet* ()
-            {
-                return result->nodesetval;
+            { 
+                return result->nodesetval; 
             }
 
         private:
@@ -156,7 +156,7 @@ namespace xml
         };
 
         template <typename NodeType>
-        NodeType find(const std::string &xpath) const
+        NodeType find(const std::string &xpath) const 
         {
             FindNodeset search(cobj, xpath, XPATH_NODESET);
             const xmlNodeSet* nodeset = search;
@@ -168,7 +168,7 @@ namespace xml
         }
 
         template <typename NodeType>
-        std::vector<NodeType> find_all(const std::string &xpath) const
+        std::vector<NodeType> find_all(const std::string &xpath) const 
         {
             FindNodeset search(cobj, xpath, XPATH_NODESET);
             const xmlNodeSet* nodeset = search;
@@ -186,5 +186,5 @@ namespace xml
     private:
         Node(const Node&);
         Node& operator = (const Node&);
-    };
+    };    
 }
