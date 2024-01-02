@@ -25,6 +25,15 @@ target_sources("libxmlmm"
     PRIVATE ${src}
 )
 
+if (UNIX)
+	include(GNUInstallDirs)
+	set(prefix ${CMAKE_INSTALL_PREFIX})
+	set(VERSION ${CMAKE_PROJECT_VERSION})
+	configure_file(libxmlmm.pc.in libxmlmm.pc @ONLY)
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libxmlmm.pc
+		DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+endif (UNIX)
+
 install(
     TARGETS "libxmlmm"
     DESTINATION ${CMAKE_INSTALL_LIBDIR})
